@@ -4,15 +4,33 @@ import {
   text,
   primaryKey,
   integer,
+  uuid,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccount } from "@auth/core/adapters";
+import { setDefaultAutoSelectFamilyAttemptTimeout } from "net";
+import { sql } from "drizzle-orm";
 
 export const testing = pgTable("testing", {
   id: text("id").notNull().primaryKey(),
   name: text("name"),
 });
 
-// Para next-auth de OAuth
+export const room = pgTable("room", {
+  id: uuid("id")
+    .default(sql`gen_random_uuid()`)
+    .primaryKey(),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }), // Ésto es una fk, sale que referencía a la tabla users el atributo id, y si se borra un usuario se borra la sala
+  name: text("name").notNull(),
+  description: text("description"),
+  language: text("Language").notNull(),
+  remoteRepo: text("repository"),
+});
+
+export type Room = typeof room.$inferSelect;
+
+// Para OAuth de NextAuth
 
 export const users = pgTable("user", {
   id: text("id").notNull().primaryKey(),
