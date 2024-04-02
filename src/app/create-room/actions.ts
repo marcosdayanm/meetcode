@@ -3,6 +3,7 @@
 import { db } from "@/db";
 import { room, Room } from "@/db/schema";
 import { getSession } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
 
 export async function createRoomAction(roomData: Omit<Room, "id" | "userId">) {
   const session = await getSession();
@@ -12,4 +13,6 @@ export async function createRoomAction(roomData: Omit<Room, "id" | "userId">) {
   }
 
   await db.insert(room).values({ ...roomData, userId: session?.user.id });
+
+  revalidatePath("/"); // Ésto es par alimpiar el cache para que cuando se cargue la página,s e carguen los últimos cambios
 }
