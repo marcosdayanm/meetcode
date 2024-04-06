@@ -13,9 +13,14 @@ import { Room } from "@/db/schema";
 import { GithubIcon } from "lucide-react";
 import { getRooms } from "@/data.access/rooms";
 import { splitTags, TagsList } from "@/components/tags-list";
+import { SearchBar } from "./search-bar";
 
-export default async function Home() {
-  const rooms = await getRooms();
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: { search: string };
+}) {
+  const rooms = await getRooms(searchParams.search);
 
   function RoomCard({ room }: { room: Room }) {
     return (
@@ -58,6 +63,10 @@ export default async function Home() {
         <Button asChild>
           <Link href="/create-room">Create Room</Link>
         </Button>
+      </div>
+
+      <div className="mb-12">
+        <SearchBar />
       </div>
 
       <div className="grid grid-cols-3 gap-4">
