@@ -24,7 +24,7 @@ export const room = pgTable("room", {
     .references(() => users.id, { onDelete: "cascade" }), // Ésto es una fk, sale que referencía a la tabla users el atributo id, y si se borra un usuario se borra la sala
   name: text("name").notNull(),
   description: text("description"),
-  language: text("Language").notNull(),
+  tags: text("tags").notNull(),
   remoteRepo: text("repository"),
 });
 

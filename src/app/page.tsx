@@ -12,6 +12,7 @@ import {
 import { Room } from "@/db/schema";
 import { GithubIcon } from "lucide-react";
 import { getRooms } from "@/data.access/rooms";
+import { splitTags, TagsList } from "@/components/tags-list";
 
 export default async function Home() {
   const rooms = await getRooms();
@@ -22,11 +23,12 @@ export default async function Home() {
         <CardHeader>
           <CardTitle>{room.name}</CardTitle>
           <CardDescription>
-            {room.language} - {room.description}
+            {room.tags} - {room.description}
           </CardDescription>
         </CardHeader>
-        {room.remoteRepo && (
-          <CardContent>
+        <CardContent className="flex flex-col gap-4">
+          <TagsList tags={splitTags(room.tags)} />
+          {room.remoteRepo && (
             <Link
               href={room.remoteRepo}
               className="flex items-center gap-2"
@@ -36,8 +38,8 @@ export default async function Home() {
               <GithubIcon />
               Remote Repository
             </Link>
-          </CardContent>
-        )}
+          )}
+        </CardContent>
         <CardFooter>
           <Button asChild>
             <Link href={`/rooms/${room.id}`}>Join Room</Link>
