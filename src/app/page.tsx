@@ -12,8 +12,9 @@ import {
 import { Room } from "@/db/schema";
 import { GithubIcon } from "lucide-react";
 import { getRooms } from "@/data.access/rooms";
-import { splitTags, TagsList } from "@/components/tags-list";
+import { TagsList } from "@/components/tags-list";
 import { SearchBar } from "./search-bar";
+import { splitTags } from "@/lib/utils";
 
 export default async function Home({
   searchParams,
@@ -28,7 +29,7 @@ export default async function Home({
         <CardHeader>
           <CardTitle>{room.name}</CardTitle>
           <CardDescription>
-            {room.tags} - {room.description}
+            s{room.tags} - {room.description}
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">

@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SearchIcon } from "lucide-react";
 import { useSearch } from "@stream-io/video-react-sdk/dist/src/components/Search/hooks";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   search: z.string().max(100),
@@ -31,6 +32,12 @@ export function SearchBar() {
       search: query.get("search") ?? "",
     },
   });
+
+  const search = query.get("search");
+
+  useEffect(() => {
+    form.setValue("search", search ?? "");
+  }, [search, form]);
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
