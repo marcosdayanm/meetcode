@@ -14,9 +14,9 @@ jobs:
   build-and-deploy:
     name: Setup, Build and Deploy
     runs-on: ubuntu-latest
-  steps:
-    - name: Checkout
-    uses: actions/checkout@v3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
 
 # Authentication with Google Cloud
