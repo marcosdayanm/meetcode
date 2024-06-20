@@ -12,7 +12,8 @@ export async function createRoomAction(roomData: Omit<Room, "id" | "userId">) {
     throw new Error("You must be logged in to create this room");
   }
 
-  await createRoom(roomData, session.user.id);
+  const room = await createRoom(roomData, session.user.id);
 
   revalidatePath("/browse"); // Ésto es par alimpiar el cache para que cuando se cargue la página,s e carguen los últimos cambios
+  return room;
 }

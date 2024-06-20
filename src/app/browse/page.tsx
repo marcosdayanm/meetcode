@@ -15,6 +15,7 @@ import { splitTags } from "@/lib/utils";
 import { Room } from "@/db/schema";
 import { GithubIcon } from "lucide-react";
 import { unstable_noStore } from "next/cache";
+import Image from "next/image";
 
 export default async function Home({
   searchParams,
@@ -76,6 +77,15 @@ export default async function Home({
           return <RoomCard key={room.id} room={room} />;
         })}
       </div>
+
+      {rooms.length === 0 && (
+        <div className="flex justify-center items-center flex-col gap-4 mt-24">
+          <Image src="/void.svg" width={300} height={300} alt="void" />
+          <h2 className="text-3xl">
+            No rooms yet, guess it&apos;s time to create one!
+          </h2>
+        </div>
+      )}
     </main>
   );
 }

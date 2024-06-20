@@ -114,7 +114,7 @@ export function EditRoomForm({ room }: { room: Room }) {
                 />
               </FormControl>
               <FormDescription>
-                Please provide the lesson's remote repository.
+                Please provide the lesson&apos;s remote repository.
               </FormDescription>
               <FormMessage />
             </FormItem>

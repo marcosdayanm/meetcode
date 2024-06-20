@@ -61,7 +61,7 @@ export function MeetCodeVideo({ room }: { room: Room }) {
         <StreamTheme>
           <StreamCall call={call}>
             <SpeakerLayout />
-            <CallControls onLeave={() => router.push("/")} />
+            <CallControls onLeave={() => router.push("/browse")} />
             <CallParticipantsList onClose={() => undefined} />
           </StreamCall>
         </StreamTheme>

@@ -38,8 +38,8 @@ export function CreateRoomForm() {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await createRoomAction(values);
-    router.push("/");
+    const room = await createRoomAction(values);
+    router.push(`/rooms/${room.id}`);
   }
 
   return (
@@ -111,7 +111,7 @@ export function CreateRoomForm() {
                 />
               </FormControl>
               <FormDescription>
-                Please provide the lesson's remote repository.
+                Please provide the lesson&apos;s remote repository.
               </FormDescription>
               <FormMessage />
             </FormItem>
