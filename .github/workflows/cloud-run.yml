@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - main
-      - master 
+      - master
 
 env:
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
@@ -43,11 +43,5 @@ jobs:
             --image ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}:${{ github.sha }} \
             --platform "managed" \
             --region ${{ env.REGION }} \
-            --set-env-vars POSTGRES_URL=${{ secrets.POSTGRES_URL }},\
-GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }},\
-GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }},\
-NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }},\
-NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }},\
-NEXT_PUBLIC_STREAM_API_KEY=${{ secrets.NEXT_PUBLIC_STREAM_API_KEY }},\
-NEXT_PUBLIC_STREAM_API_SECRET=${{ secrets.NEXT_PUBLIC_STREAM_API_SECRET }} \
+            --set-env-vars "POSTGRES_URL=${{ secrets.POSTGRES_URL }},GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }},GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }},NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }},NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }},NEXT_PUBLIC_STREAM_API_KEY=${{ secrets.NEXT_PUBLIC_STREAM_API_KEY }},NEXT_PUBLIC_STREAM_API_SECRET=${{ secrets.NEXT_PUBLIC_STREAM_API_SECRET }}" \
             --allow-unauthenticated
