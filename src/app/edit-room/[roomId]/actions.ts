@@ -22,5 +22,6 @@ export async function editRoomAction(roomData: Omit<Room, "userId">) {
   await editRoom({ ...roomData, userId: room.userId });
 
   revalidatePath("/your-rooms"); // Ésto es par alimpiar el cache para que cuando se cargue la página,s e carguen los últimos cambios
+  revalidatePath(`/edit-room/${roomData.id}`);
   redirect("/your-rooms");
 }

@@ -40,7 +40,7 @@ export function UserRoomCard({ room }: { room: Room }) {
         </Button>
         <CardTitle>{room.name}</CardTitle>
         <CardDescription>
-          s{room.tags} - {room.description}
+          {room.tags} - {room.description}
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
