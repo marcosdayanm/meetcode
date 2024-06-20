@@ -6,12 +6,14 @@ import { map } from "zod";
 import { TagsList } from "@/components/tags-list";
 import { MeetCodeVideo } from "./video-player";
 import { splitTags } from "@/lib/utils";
+import { unstable_noStore } from "next/cache";
 
 export default async function RoomPage(props: { params: { roomId: string } }) {
-  console.log(props);
+  // console.log(props);
 
   const roomId = props.params.roomId;
 
+  unstable_noStore();
   const room = await getRoom(roomId);
 
   if (!room) {

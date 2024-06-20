@@ -36,3 +36,6 @@ notes.md
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# .vscode
+.vscode/*

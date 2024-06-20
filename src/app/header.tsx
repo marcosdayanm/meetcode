@@ -47,9 +47,11 @@ function AccountDropdown() {
 
 export function Header() {
   const session = useSession();
+  const isLoggedIn = session.data;
 
   return (
-    <header className="bg-gray-200 py-2 dark:bg-gray-900 container mx-auto">
+    // Eso de z-10 y relative en el header es para que el componente esté tipo hasta arriba
+    <header className="bg-gray-200 py-2 dark:bg-gray-900 container mx-auto z-10 relative">
       <div className="flex justify-between">
         <Link
           href="/"
@@ -66,9 +68,21 @@ export function Header() {
           MeetCode
         </Link>
 
+        {isLoggedIn && (
+          <nav className="flex gap-4">
+            <Link className="hover:underline" href="/browse">
+              Browse
+            </Link>
+
+            <Link className="hover:underline" href="/your-rooms">
+              Your Rooms
+            </Link>
+          </nav>
+        )}
+
         <div className="flex items-center gap-4">
-          {session.data && <AccountDropdown />}
-          {!session.data && (
+          {isLoggedIn && <AccountDropdown />}
+          {!isLoggedIn && (
             <Button onClick={() => signIn()} variant="link">
               <LogInIcon className="mr-2" /> Sign in
             </Button>
