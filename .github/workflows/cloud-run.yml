@@ -1,9 +1,9 @@
 name: meetcode
 on:
-push:
-branches:
-  - main
-  - master 
+  push:
+    branches:
+      - main
+      - master 
 
 env:
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
@@ -18,32 +18,36 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v0
+        with:
+          credentials_json: ${{ secrets.CLOUD_RUN_SERVICE_ACCOUNT }}
 
-# Authentication with Google Cloud
-    - id: gcloud-auth
-      uses: google-github-actions/auth@v0
-      with:
-        credentials.json: ${{ secrets.CLOUD_RUN_SERVICE_ACCOUNT }}
+      - name: Setup gcloud CLI SDK
+        uses: google-github-actions/setup-gcloud@v0
 
-# Setup cloud CLI SDK
-    - name: Setup gcloud CLI SDK
-      run: google-github-actions/setup-gcloud@v0
+      - name: Authorize Docker push to Google Artifact Registry
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
 
-    - name: Authorize Docker push to Google Artifact Registry
-      run: gcloud auth configure-docker $REGION-docker.pkg.dev
+      - name: Build the container image
+        run: |
+          docker build -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}:${{ github.sha }} .
 
-    - name: Build the container image
-      run: |
-        docker build -t $REGION-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}:${{ github.sha }} .
+      - name: Push the container image to Google Artifact Registry
+        run: |
+          docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}:${{ github.sha }}
 
-    - name: Push the container image to Google Artifact Registry
-      run: |
-        docker push $REGION-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}:${{ github.sha }}
-
-    - name: Deploy the container image to Cloud Run
-      run: |
-        gcloud run deploy ${{ env.REPO_NAME }} \
-        --image $REGION-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}:${{ github.sha }} \
-        --platform "managed" \
-        --region ${{ env.REGION }} \
-        --allow-unauthenticated
+      - name: Deploy the container image to Cloud Run
+        run: |
+          gcloud run deploy ${{ env.REPO_NAME }} \
+            --image ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}:${{ github.sha }} \
+            --platform "managed" \
+            --region ${{ env.REGION }} \
+            --set-env-vars POSTGRES_URL=${{ secrets.POSTGRES_URL }},\
+GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }},\
+GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }},\
+NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }},\
+NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }},\
+NEXT_PUBLIC_STREAM_API_KEY=${{ secrets.NEXT_PUBLIC_STREAM_API_KEY }},\
+NEXT_PUBLIC_STREAM_API_SECRET=${{ secrets.NEXT_PUBLIC_STREAM_API_SECRET }} \
+            --allow-unauthenticated
