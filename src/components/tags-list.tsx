@@ -11,7 +11,7 @@ export function TagsList({ tags }: { tags: string[] }) {
         <button // ya que pusimos en button, no se necesita lo de tabindex porque el button ya por si solo tiene todas esas propiedades
           key={tag}
           onClick={() => {
-            router.push(`/?search=${tag}`);
+            router.push(`/browse?search=${tag}`);
           }}
         >
           <Badge

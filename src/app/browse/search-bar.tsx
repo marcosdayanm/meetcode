@@ -41,8 +41,8 @@ export function SearchBar() {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    if (values.search) router.push(`/?search=${values.search}`);
-    else router.push("/");
+    if (values.search) router.push(`/browse?search=${values.search}`);
+    else router.push("/browse");
   }
 
   return (
@@ -70,7 +70,6 @@ export function SearchBar() {
         />
 
         <Button type="submit">
-          {" "}
           <SearchIcon className="mr-2" /> Search
         </Button>
 

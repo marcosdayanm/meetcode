@@ -15,11 +15,11 @@ import {
 } from "@stream-io/video-react-sdk";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { set } from "zod";
 import { generateTokenAction } from "./actions";
 import { useRouter } from "next/navigation";
 
-const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY!;
+// const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY!;
+const apiKey = "wrawph262smv";
 
 export function MeetCodeVideo({ room }: { room: Room }) {
   const session = useSession();
